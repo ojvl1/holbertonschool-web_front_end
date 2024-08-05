@@ -1,6 +1,7 @@
 .info {
   font-size: 12px;
-  @extend .success, .warning;
+  @extend .success;
+  @extend .warning;
 }
 
 .success {
