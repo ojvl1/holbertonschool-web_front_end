@@ -4,9 +4,9 @@
 }
 
 body {
-  @include margin-l-r(10px)
+  @include margin-l-r($margin: 10px)
 }
 
 div {
-  @include margin-l-r(15px)
+  @include margin-l-r($margin: 15px)
 }
