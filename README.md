@@ -1,0 +1,1 @@
+In this repository I will be working with front-end technologies
