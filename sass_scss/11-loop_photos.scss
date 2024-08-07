@@ -3,7 +3,7 @@
 @import "11-photos";
 
 @each $list in $list-name {
-  $image: nth($background, $list-name);
+  $image: nth($background, $list);
   .#{list-name}-bg {
     background-image: $image;
   }
