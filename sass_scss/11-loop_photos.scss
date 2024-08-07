@@ -2,9 +2,9 @@
 
 @import "11-photos";
 
-@each $list in $list-name {
+@each $name in $list-names {
   $image: nth($background, $list);
-  .#{list-name}-bg {
-    background-image: $image;
+  .photo-#{name} {
+    background: image-url("photos/#{$name}.jpg") no-repeat;;
   }
 }
