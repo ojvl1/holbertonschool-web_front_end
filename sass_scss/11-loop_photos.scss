@@ -1,0 +1,11 @@
+/* Using @each for loop in list-name to retrieve the background
+of list-name and create a class to each list  */
+
+@import "11-photos";
+
+@each $list in $list-name {
+  $image: nth($background, $list-name);
+  .#{list-name}-bg {
+    background-image: $image;
+  }
+}
