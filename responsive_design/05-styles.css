@@ -368,8 +368,8 @@ ul.row {
 
 @media screen and (max-width: 767px) {
   root: {
-    --section-padding: 5rem 1.5rem;
-    --section-body-padding: 2rem 0 0;
+    var(--section-padding: 5rem 1.5rem);
+    var(--section-body-padding: 2rem 0 0);
   }
   ul.row {
     margin: 0;
@@ -454,7 +454,7 @@ ul.row {
   }
 
   root: {
-    --nav-item-margin: 0;
+    var(--nav-item-margin: 0);
   }
 
   .header .nav {
