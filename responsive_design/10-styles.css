@@ -1175,30 +1175,36 @@ textarea:valid:not(:placeholder-shown) {
 }
 
 .menu-btn:chekced ~ .navbar-menu {
+  display: block;
   max-height: 100%;
   overflow: inherit;
+}
+
+.menu-btn:checked ~ .navbar-menu .nav {
+  max-height: 100%;
+  overflow: inherit
 }
 
 .header .menu-btn:checked ~ .menu-icon .navicon {
   background: transparent;
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon:before {
+.header .menu-icon .menu-btn:checked ~ .navicon:before {
   transform: rotate(-45deg);
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon:after {
+.header .menu-icon .menu-btn:checked ~ .navicon:after {
   transform: rotate(45deg);
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon:before,
-.header .menu-btn:checked ~ .menu-icon .navicon:after {
+.header .menu-icon .menu-btn:checked ~ .navicon:before,
+.header .menu-icon .menu-btn:checked ~ .navicon:after {
   top: 0;
 }
 
 @media screen and (max-width: 767px) {
   root: {
-    var(--header-padding: 2rem 0 0);
+    --header-padding: 2rem 0 0;
   }
 
   .header {
@@ -1211,11 +1217,11 @@ textarea:valid:not(:placeholder-shown) {
   }
 
   .header .menu-icon {
-    display: none;
+    display: block;
   }
 }
 
-@media screen and (max-width: 280px) {
+@media screen and (max-width: 480px) {
   .header-logo {
     flex-basis: 70%;
   }
@@ -1225,4 +1231,8 @@ textarea:valid:not(:placeholder-shown) {
   .header-logo {
     flex-basis: 79%;
   }
+}
+
+.header, .menu-icon {
+  display: none;
 }
