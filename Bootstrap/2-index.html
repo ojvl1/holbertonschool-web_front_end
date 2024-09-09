@@ -14,36 +14,37 @@
 <body>
   <header class="border-bottom p-2 mb-4 bg-light">
     <ul class="row mb-0">
-      <li>
-        <a class="align-items-start" href="/">
+      <li class="justify-content-start">
+        <a href="/">
           <img src="https://via.placeholder.com/150x50" />
         </a>
       </li>
-      <li class="align-items-end align-content-center btn btn-secondary active">
+      <li class="align-item-end align-content-center btn btn-secondary active">
         <a href="#">Chemical elements</a>
       </li>
-      <li class="align-items-end align-content-center btn btn-secondary">
+      <li class="align-item-end align-content-center btn btn-secondary">
         <a href="#">Profile</a>
       </li>
     </ul>
   </header>
 
-  <main>
+  <main class="container-fluid">
     <section>
-      <div role="alert">
-        <h4>List of chemical elements</h4>
+      <div class="alert alert-info" role="alert">
+        <h4 class="alert">List of chemical elements</h4>
         <p>This is a list of the 5 first chemical elements which have been identified as of 2019.</p>
         <hr>
-        <p>A popular visualization of all 118 elements is <a href="https://en.wikipedia.org/wiki/Periodic_table">the
+        <p class="mb-0">A popular visualization of all 118 elements is <a
+            href="https://en.wikipedia.org/wiki/Periodic_table">the
             periodic table of the elements</a>.</p>
       </div>
     </section>
 
     <section>
-      <h1>Chemical elements <span>only 5</span></h1>
+      <h1 class="mb-3 mt-5">Chemical elements <span class="badge rounded-pill text-white bg-info">only 5</span></h1>
 
       <div>
-        <table>
+        <table class="table table-dark lg: 992px">
           <thead>
             <tr>
               <th scope="col">Atomic number</th>
