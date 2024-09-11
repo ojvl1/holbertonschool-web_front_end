@@ -1,0 +1,1 @@
+function welcome(firstname, lastName) {}
