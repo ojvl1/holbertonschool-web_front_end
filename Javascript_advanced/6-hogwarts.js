@@ -7,11 +7,11 @@ class studentHogwarts {
   }
 
   setName(newName) {
-    this.#name = newName
+    this.#name = newName;
   }
 
   rewardStudent() {
-    this.#changeScoreBy.apply(1);
+    this.#changeScoreBy(1);
   }
 
   penalizeStudent() {
@@ -19,7 +19,31 @@ class studentHogwarts {
   }
 
   getScore() {
-    return {
-      `$(#name)`
+    return `${this.#name}: ${this.#privateScore}`;
   }
 }
+
+// Harry instance
+let harry = new studentHogwarts();
+
+harry.setName("Harry");
+
+harry.rewardStudent();
+harry.rewardStudent();
+harry.rewardStudent();
+harry.rewardStudent();
+
+console.log(harry.getScore());
+
+// Draco instance
+let draco = new studentHogwarts();
+
+draco.setName("Draco");
+
+draco.rewardStudent();
+
+draco.penalizeStudent();
+draco.penalizeStudent();
+draco.penalizeStudent();
+
+console.log(draco.getScore());
