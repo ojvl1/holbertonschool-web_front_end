@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Add any required CSS here */
+    </style>
+</head>
+<body>
+    <script>
+        $(document).ready(function() {
+            listPosts();
+            buildForm();
+        });
+
+        function buildForm() {
+            // Create the form element with required structure
+            const formHtml = `
+                <form id="myForm">
+                    <div>
+                        <label for="author">Author</label>
+                        <input type="text" id="author" />
+                    </div>
+                    <div>
+                        <label for="title">Title</label>
+                        <textarea id="title"></textarea>
+                    </div>
+                    <input type="submit" value="Submit" />
+                </form>
+            `;
+
+            // Append the form to the body
+            $('body').append(formHtml);
+
+            // Prevent form submission from reloading the page
+            $('#myForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                sendForm(); // Call the function to handle the form data
+            });
+
+            // Make labels focus the corresponding input fields
+            $('label').on('click', function() {
+                const forId = $(this).attr('for');
+                $(`#${forId}`).focus();
+            });
+        }
+
+        function sendForm() {
+            // Display a message before sending the request
+            $('body').after('<p>About to send the query to the API</p>');
+
+            // Create the data object from form inputs
+            const data = {
+                author: $('#author').val(),
+                title: $('#title').val()
+            };
+
+            // Send a POST request to the server
+            $.ajax({
+                url: 'http://localhost:3000/posts', // Replace with your actual API endpoint
+                method: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    addPostRow(response); // Handle success response
+                },
+                error: function() {
+                    alert('Error sending the POST query'); // Handle error response
+                }
+            });
+        }
+
+        function listPosts() {
+            // Implement the function to list posts
+            // Example implementation (make sure to adapt it to your actual needs):
+            $.ajax({
+                url: 'http://localhost:3000/posts', // Replace with your actual API endpoint
+                method: 'GET',
+                success: function(posts) {
+                    // Example implementation: append posts to the body
+                    posts.forEach(post => {
+                        $('body').append(`<div><strong>${post.author}</strong>: ${post.title}</div>`);
+                    });
+                },
+                error: function() {
+                    alert('Error fetching the posts'); // Handle error response
+                }
+            });
+        }
+
+        function addPostRow(postData) {
+            // Example implementation: add the new post to the body
+            $('body').append(`<div><strong>${postData.author}</strong>: ${postData.title}</div>`);
+        }
+    </script>
+</body>
+</html>
