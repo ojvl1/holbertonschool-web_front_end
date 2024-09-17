@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wikipedia Search with Pagination and Loading</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    .loading {
+      opacity: 0.2;
+    }
+    #pagination {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+    }
+    #pagination li {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .active-page {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Función para mostrar/ocultar el efecto de carga
+    function displayLoading(loading) {
+      const ulElement = $('ul').first(); // Selecciona el primer ul
+
+      if (loading) {
+        ulElement.wrap('<div class="loading"></div>'); // Envuélvelo en un div con la clase loading
+      } else {
+        ulElement.unwrap(); // Desenvuelve el div
+      }
+    }
+
+    function createSearchForm() {
+      // Añade el input, submit button, y dos listas (una para resultados y otra para la paginación)
+      $('body').append(
+        $('<input>', { type: 'text' }),
+        $('<input>', { type: 'submit', value: 'Submit' }),
+        $('<ul></ul>'),
+        $('<ul></ul>', { id: 'pagination' })
+      );
+
+      // Controlador para el click en el botón submit
+      $('input[type="submit"]').on('click', function (e) {
+        e.preventDefault();
+        const searchTerm = $('input[type="text"]').val();
+        queryWikipedia(searchTerm, 0);
+      });
+    }
+
+    function addNewArticle(id, title, snippet) {
+      // Crea un elemento li con dos párrafos para la información del artículo
+      const article = $('<li></li>').append(
+        $('<p></p>').html(`<span>${id} - </span><b>${title}</b>`),
+        $('<p></p>').html(snippet)
+      );
+      // Agrega el artículo al primer ul
+      $('ul').first().append(article);
+    }
+
+    function queryWikipedia(search, offset = 0) {
+      const url = "https://en.wikipedia.org/w/api.php";
+
+      // Llamar a la función displayLoading antes de iniciar la solicitud
+      displayLoading(true);
+
+      // Realiza la consulta AJAX a la API de Wikipedia
+      $.ajax({
+        url: url,
+        data: {
+          action: "query",
+          list: "search",
+          srsearch: search,
+          sroffset: offset,
+          format: "json",
+          origin: "*",
+        },
+        success: function (data) {
+          // Limpiar la lista actual
+          $('ul').first().empty();
+
+          // Iterar sobre cada resultado y llamar a addNewArticle
+          $.each(data.query.search, function (i, result) {
+            addNewArticle(result.pageid, result.title, result.snippet);
+          });
+
+          // Llamar a buildPagination con totalhits, 10 elementos por página, y el desplazamiento actual
+          buildPagination(data.query.searchinfo.totalhits, 10, offset);
+
+          // Desactivar el efecto de carga cuando se reciben los resultados
+          displayLoading(false);
+        },
+        error: function (err) {
+          console.error("Error con la solicitud a la API de Wikipedia", err);
+
+          // Desactivar el efecto de carga incluso si hay un error
+          displayLoading(false);
+        }
+      });
+    }
+
+    function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
+      const totalPages = Math.ceil(numberOfItems / itemsPerPage);
+      const currentPage = currentOffset / itemsPerPage;
+
+      // Limpiar la lista de paginación
+      $('#pagination').empty();
+
+      // Crear elementos de paginación
+      for (let i = 0; i < totalPages; i++) {
+        const pageItem = $('<li></li>')
+          .text(i + 1)
+          .css({
+            cursor: 'pointer',
+            'margin-left': '10px',
+            'font-weight': currentPage === i ? 'bold' : 'normal'
+          })
+          .on('click', function () {
+            queryWikipedia($('input[type="text"]').val(), i * itemsPerPage);
+          });
+
+        // Resaltar la página actual
+        if (currentPage === i) {
+          pageItem.addClass('active-page');
+        }
+
+        // Agregar el ítem de página a la lista de paginación
+        $('#pagination').append(pageItem);
+      }
+    }
+
+    // Llamar a createSearchForm cuando la página se cargue
+    $(document).ready(function () {
+      createSearchForm();
+    });
+  </script>
+</body>
+</html>
