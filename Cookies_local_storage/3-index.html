@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <div>
+        <div id="form">
             <h1>Login to the website</h1>
             <input id="firstname" type="text" placeholder="Firstname" />
             <input id="email" type="text" placeholder="Email" />
@@ -28,6 +28,8 @@
                 document.cookie = `email=${
                     document.getElementById("email").value
                 };${expires};path=/`;
+
+                showWelcomeMessageOrForm();
             }
 
             function showCookies() {
